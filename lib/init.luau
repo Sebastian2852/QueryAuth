@@ -1,10 +1,10 @@
 --!strict
---[[
-    QueryAuth
-    A fully type-safe permissions module for Roblox Luau.
+--[=[
+	@class QueryAuth
+	fully type-safe permissions module for Roblox Luau.
 
 	For more information, check out the GitHub: https://github.com/PossiblePanda/QueryAuth
-]]
+]=]
 
 local QueryAuthTypes = require(script.Types)
 
@@ -37,11 +37,11 @@ export type QueryAuthModule = {
 	negate: (condition: AuthCondition) -> AuthCondition,
 }
 
---[[
-    Combines multiple AuthConditions and only passes if *all* conditions are true.
-    @param conditions {AuthCondition} - List of conditions to evaluate.
-    @return AuthCondition - A lambda that evaluates to see if ALL conditions are true.
-]]
+--[=[
+	Combines multiple AuthConditions and only passes if *all* conditions are true.
+	@param conditions {AuthCondition} -- List of conditions to evaluate.
+	@return AuthCondition -- A lambda that evaluates to see if ALL conditions are true.
+]=]
 function QueryAuth.all(conditions: { AuthCondition }): AuthCondition
 	return function(player: Player): boolean
 		for _, condition in conditions do
@@ -53,21 +53,21 @@ function QueryAuth.all(conditions: { AuthCondition }): AuthCondition
 	end
 end
 
---[[
-    Combines multiple AuthConditions and only passes if *any* condition is true.
-    @param conditions {AuthCondition} - List of conditions to evaluate.
-    @return AuthCondition - A lambda that evaluates to see if ANY conditions are true.
-]]
+--[=[
+	Combines multiple AuthConditions and only passes if *any* condition is true.
+	@param conditions {AuthCondition} -- List of conditions to evaluate.
+	@return AuthCondition -- A lambda that evaluates to see if ANY conditions are true.
+]=]
 function QueryAuth.any(conditions: { AuthCondition }): AuthCondition
 	return QueryAuth.has(1, conditions)
 end
 
---[[
-    Combines multiple AuthConditions and only passes if *amount* conditions are true.
-    @param amount number - The amount of conditions that must pass.
-    @param conditions {AuthCondition} - List of conditions to evaluate.
-    @return AuthCondition - A lambda that evaluates to see if the amount of conditions are true.
-]]
+--[=[
+	Combines multiple AuthConditions and only passes if *amount* conditions are true.
+	@param amount number -- The amount of conditions that must pass.
+	@param conditions {AuthCondition} -- List of conditions to evaluate.
+	@return AuthCondition -- A lambda that evaluates to see if the amount of conditions are true.
+]=]
 function QueryAuth.has(amount: number, conditions: { AuthCondition }): AuthCondition
 	return function(player: Player): boolean
 		local passed = 0
@@ -85,11 +85,11 @@ function QueryAuth.has(amount: number, conditions: { AuthCondition }): AuthCondi
 	end
 end
 
---[[
+--[=[
 	Returns true if the AuthCondition is false.
-	@param condition AuthCondition - The condition to negate.
-	@return AuthCondition - A lambda that negates the provided condition.
-]]
+	@param condition AuthCondition -- The condition to negate.
+	@return AuthCondition -- A lambda that negates the provided condition.
+]=]
 function QueryAuth.negate(condition: AuthCondition): AuthCondition
 	return function(player: Player)
 		return not condition(player)
