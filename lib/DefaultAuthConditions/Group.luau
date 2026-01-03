@@ -3,13 +3,15 @@ local QueryAuthTypes = require(script.Parent.Parent.Types)
 
 type AuthCondition = QueryAuthTypes.AuthCondition
 
---[[
-    Checks if the player is in the specified group with an optional rank range.
-    @param group_id number - The Roblox group ID to check against.
-    @param min_rank number? | string? - The minimum rank the player must have in the group.
-    @param max_rank number? | string? - The maximum rank the player can have in the group.
-    @return AuthCondition - A lambda that evaluates to see if the player is in the specified group with the given rank range.
-]]
+--[=[
+	Checks if the player is in the specified group with an optional rank range.
+	@function Group
+	@within QueryAuth
+	@param group_id number -- The Roblox group ID to check against.
+	@param min_rank number? | string? -- The minimum rank the player must have in the group.
+	@param max_rank number? | string? -- The maximum rank the player can have in the group.
+	@return AuthCondition -- A lambda that evaluates to see if the player is in the specified group with the given rank range.
+]=]
 return function(group_id: number, min_rank: number? | string?, max_rank: number? | string?): AuthCondition
     min_rank = min_rank or 1
     max_rank = max_rank or math.huge
