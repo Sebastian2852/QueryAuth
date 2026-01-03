@@ -11,6 +11,6 @@ type AuthCondition = QueryAuthTypes.AuthCondition
 ]]
 return function(otherPlayerId: number): AuthCondition
 	return function(player: Player): boolean
-		return player:IsFriendsWith(otherPlayerId)
+		return player:IsFriendsWithAsync(otherPlayerId)
 	end
 end

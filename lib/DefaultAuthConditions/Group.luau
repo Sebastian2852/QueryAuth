@@ -13,13 +13,13 @@ type AuthCondition = QueryAuthTypes.AuthCondition
 	@return AuthCondition -- A lambda that evaluates to see if the player is in the specified group with the given rank range.
 ]=]
 return function(group_id: number, min_rank: number? | string?, max_rank: number? | string?): AuthCondition
-    min_rank = min_rank or 1
-    max_rank = max_rank or math.huge
+	min_rank = min_rank or 1
+	max_rank = max_rank or math.huge
 
 	return function(player: Player): boolean
 		local ok, info = pcall(function() 
-            return GroupService:GetGroupInfoAsync(group_id) 
-        end)
+			return GroupService:GetGroupInfoAsync(group_id) 
+		end)
 		if not ok then return false end
 
 		local function toRank(v)
@@ -30,13 +30,13 @@ return function(group_id: number, min_rank: number? | string?, max_rank: number?
 				end
 			end
 
-            return nil
+			return nil
 		end
 
 		local min, max = toRank(min_rank), toRank(max_rank)
 		if not min or not max then return false end
 
-		local rank = player:GetRankInGroup(group_id)
+		local rank = player:GetRankInGroupAsync(group_id)
 		return rank >= min and rank <= max
 	end
 end
