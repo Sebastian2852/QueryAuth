@@ -5,7 +5,7 @@
 	@function Throttle
 	@within QueryAuth
 	@param time number -- The time to check against, time unit depends on which function was passed on *mark*, but by default it's in seconds.
-	@param mark function -- An optional function which will be used to track intervals inside the function, defaults to `os.clock`
+	@param mark (()->number)? -- An optional function which will be used to track intervals inside the function, defaults to `os.clock`
 	@return AuthCondition -- A lambda that returns true if passed time parameter is greater or equal to time passed since last truthy return.
 ]=]
 return function(time: number, mark: (()->number)?)
