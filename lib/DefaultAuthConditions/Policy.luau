@@ -8,8 +8,8 @@ type Policy = QueryAuthTypes.Policy
 	Checks if PolicyService allows the specified policy for the player.
 	@function Policy
 	@within QueryAuth
-	@param policy Policy - The policy to check.
-	@return AuthCondition - A lambda that returns the value PolicyService provides.
+	@param policy Policy -- The policy to check.
+	@return AuthCondition -- A lambda that returns the value PolicyService provides.
 ]=]
 return function(policy: Policy): AuthCondition
 	return function(player: Player): boolean
