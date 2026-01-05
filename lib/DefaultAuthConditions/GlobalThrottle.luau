@@ -7,18 +7,26 @@
 	@param mark (()->number)? -- An optional function which will be used to track intervals inside the function, defaults to `os.clock`
 	@return AuthCondition -- A lambda that returns true if passed time parameter is greater or equal to time passed since last truthy return.
 ]=]
-return function(time: number, mark: (()->number)?)
-    local fn = if mark then mark else os.clock
-    local last = 0
+return function(times: number, timeFrame: number, mark: (() -> number)?)
+	local getTimeFn: () -> number = if mark then mark else os.clock
 
-    return function(player: Player)
-        local now = fn()
-        if now - last >= time then
-            last = now
+	local callsLeft = times
+	local lastRefill = getTimeFn()
 
-            return true
-        end
+	return function(player: Player)
+		local now = getTimeFn()
+		local elapsed = now - lastRefill
 
-        return false
-    end
+		if elapsed >= timeFrame then
+			callsLeft = times
+			lastRefill = now
+		end
+
+		if callsLeft == 0 then
+			return false
+		end
+
+		callsLeft -= 1
+		return true
+	end
 end
