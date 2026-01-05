@@ -1,14 +1,15 @@
 --[=[
-	Checks to see if time (*t*) is greater or equal to time passed since the last time the condition returned true.
-	This does not account intervals for individual players, rather globally. For that functionality, use `QueryAuth.Throttle`
+	A global time-based rate limiter, only returning true if you call it less than `times` amount of times within the `timeFrame` amount of time.
 	@function GlobalThrottle
 	@within QueryAuth
-	@param time number -- The time to check against, time unit depends on which function was passed on *mark*, but by default it's in seconds.
-	@param mark (()->number)? -- An optional function which will be used to track intervals inside the function, defaults to `os.clock`
+	@param timeFrame number -- The amount of time (seconds by default) between resetting the amount of calls that can happen.
+	@param times number? -- The maximum amount of calls allowed within the given `timeFrame` (defaults to 1).
+	@param mark (()->number)? -- An optional function which will be used to track intervals inside the function. (defaults to `os.clock`)
 	@return AuthCondition -- A lambda that returns true if passed time parameter is greater or equal to time passed since last truthy return.
 ]=]
-return function(times: number, timeFrame: number, mark: (() -> number)?)
+return function(timeFrame: number, times: number?, mark: (() -> number)?)
 	local getTimeFn: () -> number = if mark then mark else os.clock
+	times = times or 1
 
 	local callsLeft = times
 	local lastRefill = getTimeFn()
