@@ -9,35 +9,75 @@ local test = QueryAuth.any({
 })
 
 if test(plr) == true then
-	print("Expected test1 to return true, got true")
+	print("🟢 Expected test1 to return true, got true")
 else
-	print("Expected test1 to return true, got false")
+	print("🔴 Expected test1 to return true, got false")
 end
 
 local test2 = QueryAuth.Policy("IsSubjectToChinaPolicies")
 if test2(plr) == false then
-	print("Expected test2 to return false, got false")
+	print("🟢 Expected test2 to return false, got false")
 else
-	print("Expected test2 to return false, got true")
+	print("🔴 Expected test2 to return false, got true")
 end
 
 local test3 = QueryAuth.Studio()
 if test3(plr) == RunService:IsStudio() then
-	print("Expected test3 to return true, got true")
+	print("🟢 Expected test3 to return true, got true")
 else
-	print("Expected test3 to return true, got false")
+	print("🔴 Expected test3 to return true, got false")
 end
 
 local test4 = QueryAuth.Group(36022480)
 if test4(plr) == true then
-	print("Expected test4 to return true, got true")
+	print("🟢 Expected test4 to return true, got true")
 else
-	print("Expected test4 to return true, got false")
+	print("🔴 Expected test4 to return true, got false")
 end
 
 local test5 = QueryAuth.FriendsWith(173213651, 1, 1)
 if test5(plr) == false then
-	print("Expected test5 to return false, got false")
+	print("🟢 Expected test5 to return false, got false")
 else
-	print("Expected test5 to return false, got true")
+	print("🔴 Expected test5 to return false, got true")
+end
+
+local test6 = QueryAuth.GlobalThrottle(1, 3)
+do
+	local passing = false
+
+	local calls = {}
+
+	for i = 1, 3 do
+		calls[i] = test6(plr)
+		task.wait(1)
+	end
+
+	passing = calls[1] == true and calls[2] == false and calls[3] == false
+
+	if passing == true then
+		print("🟢 Expected test6 to return true, got true")
+	else
+		print("🔴 Expected test6 to return false, got true")
+	end
+end
+
+local test7 = QueryAuth.GlobalThrottle(1, 2)
+do
+	local passing = false
+
+	local calls = {}
+
+	for i = 1, 3 do
+		calls[i] = test7(plr)
+		task.wait(1)
+	end
+
+	passing = calls[1] == true and calls[2] == false and calls[3] == false
+
+	if passing == true then
+		print("🔴 Expected test7 to return false, got false")
+	else
+		print("🟢 Expected test7 to return false, got true")
+	end
 end
